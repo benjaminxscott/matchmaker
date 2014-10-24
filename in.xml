@@ -1,11 +1,46 @@
-<stix:STIX_Package id="example:Package-02a7671a-cbe3-469b-845b-533af9a0c40c" version="1.1.1" timestamp="2014-10-21T21:42:33.614287+00:00">
+<stix:STIX_Package 
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+	xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject-2"
+	xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:example="http://example.com"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://cybox.mitre.org/common-2 http://cybox.mitre.org/XMLSchema/common/2.1/cybox_common.xsd
+	http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.1/cybox_core.xsd
+	http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd
+	http://cybox.mitre.org/objects#AddressObject-2 http://cybox.mitre.org/XMLSchema/objects/Address/2.1/Address_Object.xsd
+	http://cybox.mitre.org/objects#DomainNameObject-1 http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd
+	http://cybox.mitre.org/objects#EmailMessageObject-2 http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.1/Email_Message_Object.xsd
+	http://cybox.mitre.org/objects#FileObject-2 http://cybox.mitre.org/XMLSchema/objects/File/2.1/File_Object.xsd
+	http://cybox.mitre.org/objects#HTTPSessionObject-2 http://cybox.mitre.org/XMLSchema/objects/HTTP_Session/2.1/HTTP_Session_Object.xsd
+	http://cybox.mitre.org/objects#MutexObject-2 http://cybox.mitre.org/XMLSchema/objects/Mutex/2.1/Mutex_Object.xsd
+	http://cybox.mitre.org/objects#PortObject-2 http://cybox.mitre.org/XMLSchema/objects/Port/2.1/Port_Object.xsd
+	http://cybox.mitre.org/objects#SocketAddressObject-1 http://cybox.mitre.org/XMLSchema/objects/Socket_Address/1.1/Socket_Address_Object.xsd
+	http://cybox.mitre.org/objects#WinRegistryKeyObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.1/Win_Registry_Key_Object.xsd
+	http://stix.mitre.org/Indicator-2 http://stix.mitre.org/XMLSchema/indicator/2.1.1/indicator.xsd
+	http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
+	http://stix.mitre.org/default_vocabularies-1 http://stix.mitre.org/XMLSchema/default_vocabularies/1.1.1/stix_default_vocabularies.xsd
+	http://stix.mitre.org/stix-1 http://stix.mitre.org/XMLSchema/core/1.1.1/stix_core.xsd" id="example:Package-c19650f3-8e84-4a65-bdce-be2d7294c456" version="1.1.1" timestamp="2014-10-24T16:11:51.479159+00:00">
     <stix:STIX_Header>
         <stix:Title>Indicators</stix:Title>
         <stix:Package_Intent xsi:type="stixVocabs:PackageIntentVocab-1.0">Indicators</stix:Package_Intent>
     </stix:STIX_Header>
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:Observable-7c8b14b0-c58e-4a7d-b770-faba0f603373">
-            <cybox:Object id="example:SocketAddress-b5e1619a-f1e9-490a-aeb0-77d8a7fc5351">
+        <cybox:Observable id="example:Observable-3b31df33-e390-4f9e-9a6b-366845e6c06d">
+            <cybox:Object id="example:SocketAddress-3191b37f-d875-497f-a2ce-3eeac3bb8d53">
                 <cybox:Properties xsi:type="SocketAddressObj:SocketAddressObjectType">
                     <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType">
                         <AddressObj:Address_Value>1.2.3.4</AddressObj:Address_Value>
@@ -13,15 +48,15 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-b8d520cd-b70e-4580-bd2b-922465cb0ffa">
-            <cybox:Object id="example:DomainName-a4db21fc-fc1d-4183-8b92-82a7423d072e">
+        <cybox:Observable id="example:Observable-4f07b22f-73f8-4d4c-a254-81fdc53bde3b">
+            <cybox:Object id="example:DomainName-febd1bb9-71bc-4349-992b-42bc9b8d89a5">
                 <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType">
                     <DomainNameObj:Value>evil.com</DomainNameObj:Value>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-e01f267d-0ef7-4c99-bf8b-db436a4567b9">
-            <cybox:Object id="example:EmailMessage-f2abacb9-3785-4074-addf-b5c6f5009f6c">
+        <cybox:Observable id="example:Observable-2471baef-86c3-4866-99de-99f288f4d1af">
+            <cybox:Object id="example:EmailMessage-0bbf7cc5-1250-4689-84a4-a7fb18de6bc2">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:Subject>Buy Pharma Now Reference 1badd00d</EmailMessageObj:Subject>
@@ -32,8 +67,8 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-d54d9669-7a86-4e90-92c6-90ed848c9313">
-            <cybox:Object id="example:HTTPSession-a4ee5777-8485-4e60-8fb4-793255c0ff65">
+        <cybox:Observable id="example:Observable-32d936d9-07db-46d8-9d84-db868a20e05d">
+            <cybox:Object id="example:HTTPSession-b7e154ed-9146-4bf7-99f9-cb309d5415f7">
                 <cybox:Properties xsi:type="HTTPSessionObj:HTTPSessionObjectType">
                     <HTTPSessionObj:HTTP_Request_Response>
                         <HTTPSessionObj:HTTP_Client_Request>
@@ -47,8 +82,8 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-2228acd6-c0b1-4cfe-98a3-9f57403a3e27">
-            <cybox:Object id="example:HTTPSession-f545e581-54a2-426a-845c-a8c56a295de2">
+        <cybox:Observable id="example:Observable-480e9c8d-8177-4a09-89ff-f417ed227992">
+            <cybox:Object id="example:HTTPSession-cefef3be-abb2-44e8-b2eb-3b07a7b5531f">
                 <cybox:Properties xsi:type="HTTPSessionObj:HTTPSessionObjectType">
                     <HTTPSessionObj:HTTP_Request_Response>
                         <HTTPSessionObj:HTTP_Client_Request>
@@ -61,8 +96,8 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-4ec2b1d8-b6e5-4db6-b3ad-88e181b9737f">
-            <cybox:Object id="example:File-f3fdf8de-6daa-4582-95b5-0a4e31d1a805">
+        <cybox:Observable id="example:Observable-f283a595-a05f-447e-83ea-d6f3be379a2b">
+            <cybox:Object id="example:File-9fc6a732-2a11-4165-b110-d6f3740dc6a8">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
                     <FileObj:File_Name>evil.exe</FileObj:File_Name>
                     <FileObj:Hashes>
@@ -74,8 +109,8 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-b3ede41b-fa54-4681-b2df-b5a09fc79e27">
-            <cybox:Object id="example:WinRegistryKey-71a09962-f05b-49fe-a4ae-0ae41a16564d">
+        <cybox:Observable id="example:Observable-ce039fb9-6be9-4719-849b-683333261c0f">
+            <cybox:Object id="example:WinRegistryKey-48cdbf7f-0da0-4ee3-9ddb-d1f3fcb012fe">
                 <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
                     <WinRegistryKeyObj:Values>
                         <WinRegistryKeyObj:Value>
@@ -86,8 +121,8 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:Observable-43c07fba-9625-48e6-86f1-9bdb16e1ff12">
-            <cybox:Object id="example:Mutex-d8c4dc30-5992-47f7-8e06-cc6609aae2e8">
+        <cybox:Observable id="example:Observable-770ed22e-7d16-4d6e-af93-205cf978176e">
+            <cybox:Object id="example:Mutex-3a4dc315-b08a-46e7-8d60-d420d53b7409">
                 <cybox:Properties xsi:type="MutexObj:MutexObjectType">
                     <MutexObj:Name>heymanitsme</MutexObj:Name>
                 </cybox:Properties>
@@ -95,11 +130,11 @@
         </cybox:Observable>
     </stix:Observables>
     <stix:Indicators>
-        <stix:Indicator id="example:indicator-71142544-aac7-4247-90a6-d9c3f2259529" timestamp="2014-10-21T21:42:33.614960+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-de8f20f8-c43f-4638-b3d1-8b7bafcc9022" timestamp="2014-10-24T16:11:51.479616+00:00" xsi:type='indicator:IndicatorType'>
             <indicator:Title>IP address pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
-            <indicator:Observable id="example:Observable-2637601f-8491-4181-bce7-cf0a6d972fca">
-                <cybox:Object id="example:SocketAddress-c4f8b662-a95c-40b5-b192-e646a10024ee">
+            <indicator:Observable id="example:Observable-687fee48-3be9-411f-8170-1952635e1167">
+                <cybox:Object id="example:SocketAddress-8a66f5b0-6255-420c-97ea-758a546b8a8a">
                     <cybox:Properties xsi:type="SocketAddressObj:SocketAddressObjectType">
                         <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType">
                             <AddressObj:Address_Value condition="Equals">1.2.3.4</AddressObj:Address_Value>
@@ -111,22 +146,22 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-2a36e716-72ec-4294-aa8f-5ce52197c035" timestamp="2014-10-21T21:42:33.615492+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-55c19610-ddb6-447f-a5e0-1a9f20b5a8f8" timestamp="2014-10-24T16:11:51.480017+00:00" xsi:type='indicator:IndicatorType'>
             <indicator:Title>Domain pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Domain Watchlist</indicator:Type>
-            <indicator:Observable id="example:Observable-e3524ba7-397d-45a5-ba7b-21b552af08a1">
-                <cybox:Object id="example:DomainName-aeaa9021-421d-4cc9-837d-909fa8076e7b">
+            <indicator:Observable id="example:Observable-0b742b1d-1d23-40c2-bd3d-44a62598785c">
+                <cybox:Object id="example:DomainName-f8263b8b-e4fb-4a59-926a-ac1006531848">
                     <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType">
                         <DomainNameObj:Value condition="Equals">evil.com</DomainNameObj:Value>
                     </cybox:Properties>
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-839e6391-43e4-476b-830e-9ff93d6ab53b" timestamp="2014-10-21T21:42:33.615953+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-26b4d0d2-c574-4ee7-acbd-9d70480e2593" timestamp="2014-10-24T16:11:51.480759+00:00" xsi:type='indicator:IndicatorType'>
             <indicator:Title>Email pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Malicious E-mail</indicator:Type>
-            <indicator:Observable id="example:Observable-65a16b91-3ed2-4540-9e58-b6ab75bf9525">
-                <cybox:Object id="example:EmailMessage-309b2419-29d0-4c0f-bd0a-e5c4f6c54774">
+            <indicator:Observable id="example:Observable-fa0cab26-e1c5-4eb7-9083-66b2c64e761f">
+                <cybox:Object id="example:EmailMessage-26ba85cd-1fc6-4bca-a09f-ab2118ba3134">
                     <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                         <EmailMessageObj:Header>
                             <EmailMessageObj:Subject condition="Contains">Buy Pharma Now</EmailMessageObj:Subject>
@@ -138,11 +173,11 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-d4626f9a-5499-4c39-86af-f919bdd68780" timestamp="2014-10-21T21:42:33.616315+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-06ee881e-d4fd-4cac-a7ba-34c037c88acc" timestamp="2014-10-24T16:11:51.481372+00:00" xsi:type='indicator:IndicatorType'>
             <indicator:Title>User Agent pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">C2</indicator:Type>
-            <indicator:Observable id="example:Observable-64041b62-4f10-4331-b776-c084982a3cfe">
-                <cybox:Object id="example:HTTPSession-2b1eba41-1b57-4eff-bdde-f7f04c7952fa">
+            <indicator:Observable id="example:Observable-5604b41c-84aa-47ff-a313-58b61ae1343a">
+                <cybox:Object id="example:HTTPSession-d03f9d34-6731-4cb4-a0d3-32c3f7e9e20e">
                     <cybox:Properties xsi:type="HTTPSessionObj:HTTPSessionObjectType">
                         <HTTPSessionObj:HTTP_Request_Response>
                             <HTTPSessionObj:HTTP_Client_Request>
@@ -157,10 +192,11 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-e34a70de-e809-46c6-b0bf-be0f58289147" timestamp="2014-10-21T21:42:33.616769+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-68af39cf-23b4-48aa-86fe-d95ce7bbea87" timestamp="2014-10-24T16:11:51.481770+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>URI pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">URL Watchlist</indicator:Type>
-            <indicator:Observable id="example:Observable-662ce554-568e-4932-9b64-71376d860c89">
-                <cybox:Object id="example:HTTPSession-d52f23a1-22a9-43b2-a77b-c4ebb40f431f">
+            <indicator:Observable id="example:Observable-80409bad-3d3d-4b0d-a589-a1841056279b">
+                <cybox:Object id="example:HTTPSession-03309d3a-a84a-4ddf-bc3e-e4dd1a675524">
                     <cybox:Properties xsi:type="HTTPSessionObj:HTTPSessionObjectType">
                         <HTTPSessionObj:HTTP_Request_Response>
                             <HTTPSessionObj:HTTP_Client_Request>
@@ -174,10 +210,11 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-05fbe678-8de7-4e19-abe2-5457c541f15c" timestamp="2014-10-21T21:42:33.617394+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-2682c229-f331-446c-8dd8-b24de095cf91" timestamp="2014-10-24T16:11:51.482152+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>File pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">File Hash Watchlist</indicator:Type>
-            <indicator:Observable id="example:Observable-c49335f3-de08-45fe-af28-32deee6929a7">
-                <cybox:Object id="example:File-23e44012-d4cc-4f04-be41-6e11bef8e668">
+            <indicator:Observable id="example:Observable-e1eb3f51-f353-44ae-9729-cc8c69b8fc43">
+                <cybox:Object id="example:File-b729975d-2e5f-4337-a95e-8f1990ff1fc3">
                     <cybox:Properties xsi:type="FileObj:FileObjectType">
                         <FileObj:File_Name condition="Equals">evil.exe</FileObj:File_Name>
                         <FileObj:Hashes>
@@ -190,10 +227,11 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-2c728a17-75af-4740-87fd-a4a89c97483e" timestamp="2014-10-21T21:42:33.618043+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-57651294-9da2-4af4-ba48-b2c26ba35fd1" timestamp="2014-10-24T16:11:51.482510+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Registry pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Host Characteristics</indicator:Type>
-            <indicator:Observable id="example:Observable-5ce2ee90-5d95-48f2-ae1d-4a0f37f2fc85">
-                <cybox:Object id="example:WinRegistryKey-fe219636-cbdb-4b86-88bf-0d81c0478b70">
+            <indicator:Observable id="example:Observable-dd0da005-dcbd-4fc3-b472-184ec551b90a">
+                <cybox:Object id="example:WinRegistryKey-a5cd3a12-9807-44e7-b249-df7ef5e720b2">
                     <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
                         <WinRegistryKeyObj:Values>
                             <WinRegistryKeyObj:Value>
@@ -205,10 +243,11 @@
                 </cybox:Object>
             </indicator:Observable>
         </stix:Indicator>
-        <stix:Indicator id="example:indicator-dd95039e-652a-4b04-b9c4-8863aecb5fad" timestamp="2014-10-21T21:42:33.618803+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-768b67d7-a5c4-4be3-858f-acc96851191d" timestamp="2014-10-24T16:11:51.482932+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Mutex pattern</indicator:Title>
             <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Host Characteristics</indicator:Type>
-            <indicator:Observable id="example:Observable-7c9660fe-5fa8-44a2-9255-e552dba0be21">
-                <cybox:Object id="example:Mutex-36ab47ea-f8d8-447d-8547-24289fb95177">
+            <indicator:Observable id="example:Observable-f8e96fdd-7c01-4305-a74c-828d56938ad7">
+                <cybox:Object id="example:Mutex-80a37ceb-ed5c-42b3-88c8-bfde887a3082">
                     <cybox:Properties xsi:type="MutexObj:MutexObjectType">
                         <MutexObj:Name condition="Contains">heyman</MutexObj:Name>
                     </cybox:Properties>

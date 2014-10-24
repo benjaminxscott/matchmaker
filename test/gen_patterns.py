@@ -137,6 +137,7 @@ pkg.add_observable(obj)
 # -- URI INDICATOR --
 ind = Indicator()
 
+ind.title = "URI pattern"
 ind.add_indicator_type ("URL Watchlist")
 ind_response = HTTPRequestResponse()
 ind_response.http_client_request = HTTPClientRequest()
@@ -167,6 +168,7 @@ pkg.add_observable(obj)
 # -- FILE INDICATOR --
 
 ind = Indicator()
+ind.title = "File pattern"
 ind.add_indicator_type ("File Hash Watchlist")
 
 ind_obj = File()
@@ -194,7 +196,7 @@ pkg.add_observable(obj)
 
 # -- REGISTRY INDICATOR --
 ind = Indicator()
-
+ind.title = "Registry pattern"
 ind.add_indicator_type ("Host Characteristics")
 ind_obj = WinRegistryKey()
 ind_keys = RegistryValues()
@@ -220,7 +222,7 @@ pkg.add_observable(obj)
 
 # -- MUTEX INDICATOR --
 ind = Indicator()
-
+ind.title = "Mutex pattern" 
 ind.add_indicator_type ("Host Characteristics")
 ind_obj = Mutex()
 ind_obj.name = "heyman"
@@ -228,4 +230,4 @@ ind_obj.name.condition= "Contains"
 ind.add_object(ind_obj)
 pkg.add_indicator(ind)
 
-print pkg.to_xml(include_namespaces=False) 
+print pkg.to_xml() 
