@@ -8,46 +8,32 @@ def main():
     parser = argparse.ArgumentParser ( description = "Take a set of Cybox patterns contained in STIX find Cybox instances matching them" 
     , formatter_class=argparse.ArgumentDefaultsHelpFormatter )
     parser.add_argument("stix_file", nargs='*', help="An input file containing Cybox observable instances and/or patterns", default = ["in.xml"])
+    parser.add_argument("--digest",'-d', help="MD5 hash to find", default = 'e4d909c290d0fb1ca068ffaddf22cbd0')
+    
     args = parser.parse_args()
-
-    #  read in 1..n STIX XML files, assuming each one has a package
-    patterns = []
     instances = []
+    
+    #  read in 1..n STIX XML files, assuming each one has a package
     for infile in args.stix_file:
         # parse each package in each file
         fd = open(infile)
         pkg = STIXPackage.from_xml(fd)
-        
-        # store all patterns
-        for ind in pkg.indicators:
-            # TODO for each obs in each indicator
-            print ind.title
-            # TODO check if embedded observable has condition
-        #  if ()   print "IP "+ obs['object']['properties']['ip_address']['address_value']['condition']
-            # patterns.append() 
-        
-        # store all instances
-        for obs in pkg.observables:
-            instances.append(obs)
-        
-    # when we don't have any patterns, no point in going further
-    if not patterns:
-        sys.exit ("Please specify at least one pattern - exiting")
-        
-# TODO for each pattern, search all instances for matches
-    # XXX  decide whether to generalize search, or make custom logic for each cybox object type
-    # BSS leaning towards former
-    # i.e.  if (item.member contains pattern.member) 
-        # OR switch (type): if (file.fileext is "" and file.filename contains pattern.member), etc
     
-    # XXX handle Contains and Equals (either regex or exact match)
-
-# TODO report each match
-# > FOUND instance $ID with title "Blah" matches pattern $ID in instance.xml 
-
-
-# stretch: link obs to top level object for use in output (i.e. "pattern Z found observable Y in campaign X "
-# stretch: dereference related obs and sightings, other edge cases
+        # get all file objects in package
+        for obs in pkg.observables:
+            if "File" in obs.object_.id_: 
+                #print "DBG" + str(obs)
+                instances.append(obs.object_)
+            for rel in obs.object_.related_objects:
+                if "File" in rel.id_: 
+                    instances.append(rel)
+                  #  print "DBG" +  str(rel.properties) + " under " + str(obs.object_.id_)
+        
+        # search for hash in all instances    
+        for obj in instances:
+                for digest in obj.properties.hashes:
+                    if str(digest) == args.digest:
+                        print "Match - "  + str(obj.id_) + " - " + infile
 
 if __name__ == '__main__':
     main()
