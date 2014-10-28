@@ -2,7 +2,47 @@
 
 from stix.core import STIXPackage
 import argparse
-import sys
+
+def group_observables(pkg):
+# get all objects in package 
+    for obs in pkg.observables:
+        pick_observables(obs)
+    
+    for ind in pkg.indicators:
+        # handle compositions of indicators - iterate 
+        if ind.composite_indicator_expression:
+            for item in ind.composite_indicator_expression:
+                for nest_obs in item.observables:
+                    pick_observables(nest_obs)
+            
+        else:  
+            for obs in ind.observables:
+                pick_observables(obs)
+    
+
+def pick_observables(obs):
+    if obs.observable_composition :
+        for item in obs.observable_composition.observables:
+            instances.append(item.object_)
+    else:
+        # it's just a raw observable
+        instances.append(obs.object_)
+        
+    # check related objects
+    if (obs.object_) and obs.object_.related_objects :
+        for rel in obs.object_.related_objects:
+            instances.append(rel)
+    
+def match_observable(value):
+    for obj in instances:
+            # we only care about files with hash values
+            if "File" in obj.properties._XSI_TYPE: 
+                if obj.properties.hashes:
+                    for digest in obj.properties.hashes:
+                        # if a pattern, only check if "Equals" condition
+                        if (not digest.simple_hash_value.condition) or  (digest.simple_hash_value.condition == "Equals"):
+                            if str(digest) == value:
+                                print "Match - "  + str(obj.id_) 
 
 def main():
     parser = argparse.ArgumentParser ( description = "Take a set of Cybox patterns contained in STIX find Cybox instances matching them" 
@@ -11,29 +51,17 @@ def main():
     parser.add_argument("--digest",'-d', help="MD5 hash to find", default = 'e4d909c290d0fb1ca068ffaddf22cbd0')
     
     args = parser.parse_args()
-    instances = []
     
-    #  read in 1..n STIX XML files, assuming each one has a package
+    global instances
+    instances = []
+
+    #  read in 1..n STIX XML files, parsing each package
     for infile in args.stix_file:
-        # parse each package in each file
         fd = open(infile)
         pkg = STIXPackage.from_xml(fd)
-    
-        # get all file objects in package
-        for obs in pkg.observables:
-            if "File" in obs.object_.id_: 
-                #print "DBG" + str(obs)
-                instances.append(obs.object_)
-            for rel in obs.object_.related_objects:
-                if "File" in rel.id_: 
-                    instances.append(rel)
-                  #  print "DBG" +  str(rel.properties) + " under " + str(obs.object_.id_)
+        group_observables(pkg)
         
-        # search for hash in all instances    
-        for obj in instances:
-                for digest in obj.properties.hashes:
-                    if str(digest) == args.digest:
-                        print "Match - "  + str(obj.id_) + " - " + infile
+    match_observable(args.digest)
 
 if __name__ == '__main__':
     main()

@@ -2,7 +2,7 @@
 # Create sample STIX file to test matcher
 # Success = all "patterns" within Indicators match at least one "instance" within Observables 
 
-from stix.indicator import Indicator
+from stix.indicator import Indicator, CompositeIndicatorExpression
 
 from stix.core import STIXPackage, STIXHeader
 from cybox.common import Hash
@@ -94,6 +94,29 @@ digest.type_.condition = "Equals"
 ind_obj.add_hash(digest)
 ind.add_object(ind_obj)
 pkg.add_indicator(ind)
+
+# -- COMPOSITION of two file objects --
+comp = ObservableComposition()
+comp.operator = "OR"
+comp.add(ind_obj) # re-use file object
+
+other_obj = File()
+other_obj.file_name = "nohash.exe"
+other_obj.file_name.condition = "Equals"
+comp.add(other_obj)
+
+pkg.add_observable(comp)
+
+
+# -- COMPOSITION of two indicators --
+indcomp = Indicator() 
+indcomp.composite_indicator_expression = CompositeIndicatorExpression()
+indcomp.composite_indicator_expression.operator = "OR"
+
+indcomp.composite_indicator_expression.append(ind) #re-use file indicator
+indcomp.composite_indicator_expression.append(ind)
+
+pkg.add_indicator(indcomp)
 
 # -- EMAIL INSTANCE --
 file_obj = obj # re-use File from above
