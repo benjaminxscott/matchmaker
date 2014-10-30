@@ -27,6 +27,9 @@ pkg.stix_header = stix_header
 # -- IP INSTANCE--
 obj = SocketAddress()
 obj.ip_address =  '1.2.3.4'
+port = Port()
+port.port_value = '1337'
+obj.port = port
 pkg.add_observable(obj)
 
 
@@ -38,10 +41,10 @@ ind.add_indicator_type( "IP Watchlist")
 ind_obj = SocketAddress()
 ind_obj.ip_address =  '1.2.3.4'
 ind_obj.ip_address.condition= "Equals"
-port = Port()
-port.port_value = '1337'
-port.port_value.condition= "Equals"
-ind_obj.port = port
+indport = Port()
+indport.port_value = '1337'
+indport.port_value.condition= "Equals"
+ind_obj.port = indport
 
 ind.add_object(ind_obj)
 pkg.add_indicator(ind)
