@@ -72,7 +72,7 @@ pkg.add_indicator(ind)
 obj = File()
 obj.file_name = "evil.exe"
 digest = Hash()
-digest.simple_hash_value = "e4d909c290d0fb1ca068ffaddf22cbd0"
+digest.simple_hash_value = "7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef58f20ed015be5"
 
 obj.add_hash(digest)
 pkg.add_observable(obj)
@@ -87,7 +87,7 @@ ind_obj = File()
 ind_obj.file_name = "evil.exe"
 ind_obj.file_name.condition = "Equals"
 digest = Hash()
-digest.simple_hash_value = "e4d909c290d0fb1ca068ffaddf22cbd0"
+digest.simple_hash_value = "7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef58f20ed015be5"
 digest.simple_hash_value.condition = "Equals"
 digest.type_.condition = "Equals"
 

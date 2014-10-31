@@ -48,7 +48,7 @@ def main():
     parser = argparse.ArgumentParser ( description = "Take a set of Cybox patterns contained in STIX find Cybox instances matching them" 
     , formatter_class=argparse.ArgumentDefaultsHelpFormatter )
     parser.add_argument("stix_file", nargs='*', help="An input file containing Cybox observable instances and/or patterns", default = ["in.xml"])
-    parser.add_argument("--digest",'-d', help="MD5 hash to find", default = 'e4d909c290d0fb1ca068ffaddf22cbd0')
+    parser.add_argument("--digest",'-d', help="MD5 hash to find", default = '7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef58f20ed015be5')
     
     args = parser.parse_args()
     
