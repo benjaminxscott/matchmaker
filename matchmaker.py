@@ -28,9 +28,9 @@ def group_observables(pkg):
                     for nest_obs in item.observables:
                         pick_observables(nest_obs)
             
-        else:  
-            for obs in ind.observables:
-                pick_observables(obs)
+            else:  
+                for obs in ind.observables:
+                    pick_observables(obs)
                 
     for inc in pkg.incidents:
         
@@ -58,7 +58,7 @@ def match_observable(value):
                     for digest in obj.properties.hashes:
                         # if a pattern, only check if "Equals" condition
                         if (not digest.simple_hash_value.condition) or  (digest.simple_hash_value.condition == "Equals"):
-                            if str(digest) == value:
+                            if str(digest).lower() == value.lower():
                                 print "Match - "  + str(obj.id_) 
 
 def main():
