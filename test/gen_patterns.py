@@ -3,6 +3,9 @@
 # Success = all "patterns" within Indicators match at least one "instance" within Observables 
 
 from stix.indicator import Indicator, CompositeIndicatorExpression
+from stix.incident import Incident
+
+from stix.common import RelatedObservable
 
 from stix.core import STIXPackage, STIXHeader
 from cybox.common import Hash
@@ -76,6 +79,13 @@ digest.simple_hash_value = "7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef5
 
 obj.add_hash(digest)
 pkg.add_observable(obj)
+
+# -- incident
+inc = Incident()
+relobs = RelatedObservable()
+relobs.relationship = "contains"
+relobs.observable = obj
+inc.related_observables.append (relobs)
 
 # -- FILE INDICATOR --
 

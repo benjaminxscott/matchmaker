@@ -18,7 +18,24 @@ def group_observables(pkg):
         else:  
             for obs in ind.observables:
                 pick_observables(obs)
-    
+                
+    # handle incidents
+    for inc in pkg.incidents:
+        # handle compositions of indicators - iterate 
+        for ind in inc.related_indicators:
+            if ind.composite_indicator_expression:
+                for item in ind.composite_indicator_expression:
+                    for nest_obs in item.observables:
+                        pick_observables(nest_obs)
+            
+        else:  
+            for obs in ind.observables:
+                pick_observables(obs)
+                
+    for inc in pkg.incidents:
+        
+        for item in inc.related_observables:
+            pick_observables(item)
 
 def pick_observables(obs):
     if obs.observable_composition :
