@@ -2,10 +2,16 @@
 # Create sample STIX file to test matcher
 # Success = all "patterns" within Indicators match at least one "instance" within Observables 
 
-from stix.indicator import Indicator
+from stix.indicator import Indicator, CompositeIndicatorExpression
+from stix.incident import Incident
+
+from stix.common import RelatedObservable
 
 from stix.core import STIXPackage, STIXHeader
 from cybox.common import Hash
+import cybox.utils
+
+from cybox.core import ObservableComposition
 
 from cybox.objects.email_message_object import EmailMessage,Attachments,AttachmentReference
 from cybox.objects.socket_address_object import SocketAddress
@@ -27,9 +33,6 @@ pkg.stix_header = stix_header
 # -- IP INSTANCE--
 obj = SocketAddress()
 obj.ip_address =  '1.2.3.4'
-port = Port()
-port.port_value = '1337'
-obj.port = port
 pkg.add_observable(obj)
 
 
@@ -41,10 +44,10 @@ ind.add_indicator_type( "IP Watchlist")
 ind_obj = SocketAddress()
 ind_obj.ip_address =  '1.2.3.4'
 ind_obj.ip_address.condition= "Equals"
-indport = Port()
-indport.port_value = '1337'
-indport.port_value.condition= "Equals"
-ind_obj.port = indport
+port = Port()
+port.port_value = '1337'
+port.port_value.condition= "Equals"
+ind_obj.port = port
 
 ind.add_object(ind_obj)
 pkg.add_indicator(ind)
@@ -66,14 +69,82 @@ ind_obj.value.condition= "Equals"
 ind.add_object(ind_obj)
 pkg.add_indicator(ind)
 
+
+# -- FILE INSTANCE --
+
+obj = File()
+obj.file_name = "evil.exe"
+digest = Hash()
+digest.simple_hash_value = "7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef58f20ed015be5"
+
+obj.add_hash(digest)
+pkg.add_observable(obj)
+
+# -- incident
+inc = Incident()
+relobs = RelatedObservable()
+relobs.relationship = "contains"
+relobs.observable = obj
+inc.related_observables.append (relobs)
+
+# -- FILE INDICATOR --
+
+ind = Indicator()
+ind.title = "File pattern"
+ind.add_indicator_type ("File Hash Watchlist")
+
+ind_obj = File()
+ind_obj.file_name = "evil.exe"
+ind_obj.file_name.condition = "Equals"
+digest = Hash()
+digest.simple_hash_value = "7c2ac20e179fc78f71b2aa93c744f4765ea32e30403784beaef58f20ed015be5"
+digest.simple_hash_value.condition = "Equals"
+digest.type_.condition = "Equals"
+
+ind_obj.add_hash(digest)
+ind.add_object(ind_obj)
+pkg.add_indicator(ind)
+
+# -- COMPOSITION of two file objects --
+comp = ObservableComposition()
+comp.operator = "OR"
+comp.add(ind_obj) # re-use file object
+
+other_obj = File()
+other_obj.file_name = "nohash.exe"
+other_obj.file_name.condition = "Equals"
+comp.add(other_obj)
+
+pkg.add_observable(comp)
+
+
+# -- COMPOSITION of two indicators --
+indcomp = Indicator() 
+indcomp.composite_indicator_expression = CompositeIndicatorExpression()
+indcomp.composite_indicator_expression.operator = "OR"
+
+indcomp.composite_indicator_expression.append(ind) #re-use file indicator
+indcomp.composite_indicator_expression.append(ind)
+
+pkg.add_indicator(indcomp)
+
 # -- EMAIL INSTANCE --
+file_obj = obj # re-use File from above
+
 obj = EmailMessage()
 obj.subject = "Buy Pharma Now Reference 1badd00d"
 obj.sender = "spammer@site.ru"
+
+obj.add_related(file_obj, "Contains") 
+attach = Attachments()
+attach.append(file_obj.parent.id_)
+
+obj.attachments = attach
+
 pkg.add_observable(obj)
 
-
 # -- EMAIL INDICATOR --
+file_ind_obj = ind_obj # re-use File pattern from above
 ind = Indicator()
 ind.title = "Email pattern"
 ind.add_indicator_type ("Malicious E-mail")
@@ -83,7 +154,14 @@ ind_obj.subject.condition= "Contains"
 ind_obj.sender = "spammer@site.ru"
 ind_obj.sender.condition= "Equals"
 
+
+ind_obj.add_related(file_ind_obj, "Contains") 
+attach = Attachments()
+attach.append(file_ind_obj.parent.id_)
+
+ind_obj.attachments = attach
 ind.add_object(ind_obj)
+
 pkg.add_indicator(ind)
     
 # -- USER AGENT INSTANCE --
@@ -158,33 +236,6 @@ ind.add_object(ind_obj)
 pkg.add_indicator(ind)
 
 
-# -- FILE INSTANCE --
-
-obj = File()
-obj.file_name = "evil.exe"
-digest = Hash()
-digest.simple_hash_value = "e4d909c290d0fb1ca068ffaddf22cbd0"
-
-obj.add_hash(digest)
-pkg.add_observable(obj)
-
-# -- FILE INDICATOR --
-
-ind = Indicator()
-ind.title = "File pattern"
-ind.add_indicator_type ("File Hash Watchlist")
-
-ind_obj = File()
-ind_obj.file_name = "evil.exe"
-ind_obj.file_name.condition = "Equals"
-digest = Hash()
-digest.simple_hash_value = "e4d909c290d0fb1ca068ffaddf22cbd0"
-digest.simple_hash_value.condition = "Equals"
-digest.type_.condition = "Equals"
-
-ind_obj.add_hash(digest)
-ind.add_object(ind_obj)
-pkg.add_indicator(ind)
 
 # -- REGISTRY INSTANCE --
 obj = WinRegistryKey()
