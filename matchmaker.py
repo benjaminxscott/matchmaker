@@ -6,22 +6,94 @@ import sys
 
 from cybox.core import Observable
 
-def is_pattern(item):
-    found = False
-    if isinstance(item,dict) and found == False:
-        for thing in item.keys():
-            #print "DBG: " + "|" + str(thing) + "|"
-            if str(thing) == 'condition':
-                found = True
-                break
+def is_pattern(obj):
+# cybox 'patterns' must have conditions on all fields
+    has_conditions = False
+    #  return a dict of fields with a condition, and the type of condition
+    if isinstance(obj,dict):
+        for key in obj.keys():
+            #print "DBG: " + "|" + str(key) + "|"
+            if str(key) == 'condition':
+#                print "DBG found condition " + obj[key]
+                return True
             else :
-                found = is_pattern( item[thing] )
-    return found
+                has_conditions = is_pattern( obj[key] ) or has_conditions
+    return has_conditions
+
+def compare_objects(pattern, instance):
+    # attempt to match each field in pattern on accompanying field in instance
+    # this includes the "Type", for apples/apples comparison
+    match = False
+
+    for field in pattern.keys():
+
+        # XXX handle lists of things under a single property (multiple IPs)
+        if isinstance (pattern[field], list):
+            pat_item = pattern[field][0] 
+            ins_item = instance[field][0]
+        elif isinstance(pattern[field],dict):
+            pat_item = pattern[field]
+            ins_item = instance[field]
+        else:
+            # not a dictionary, so no 'condition' to be had
+            continue
+        
+        if not 'value' in pat_item:
+            # this is a wrapper element, need to go deeper
+            compare_objects(pat_item,ins_item)
+            continue
+        else:
+            # can meaningfully compare fields
+            patval = str(pat_item['value'])
+            cond = str(pat_item['condition'])
+            insval = str(ins_item)
+        
+            # handle conditions ExclusiveBetween, or InclusiveBetween)
+            # XXX handle apply_condition
+    
+            if cond == 'Equals':
+                if insval == patval:
+                    match = True
+                    print "DBG: match on " + patval
+            
+            elif cond == 'Contains':
+                if insval in patval:
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "StartsWith":
+                if insval.startswith (patval):
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "EndsWith":
+                if insval.endswith (patval):
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "GreaterThan":
+                if  insval > patval:
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "GreaterThanOrEqual":
+                if  insval >= patval:
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "LessThan":
+                if  insval < patval:
+                    match = True
+                    print "DBG: match on " + patval
+            elif cond == "LessThanOrEqual":
+                if  insval <= patval:
+                    match = True
+                    print "DBG: match on " + patval
+            else:
+                    print "DBG: no match on " + patval
+                    break
+
+    return match
 
 def main():
-    parser = argparse.ArgumentParser ( description = "Take a set of Cybox patterns contained in STIX and find Cybox instances matching them" 
+    parser = argparse.ArgumentParser ( description = "Take a set of Cybox patterns and find Cybox instances matching them" 
     , formatter_class=argparse.ArgumentDefaultsHelpFormatter )
-    parser.add_argument("stix_file", nargs='*', help="An input file containing Cybox observable instances and/or patterns", default = ["in.xml"])
+    parser.add_argument("stix_file", nargs='*', help="An input file with a STIX package containing Cybox observable instances and/or patterns", default = ["in.xml"])
     args = parser.parse_args()
 
     #  read in 1..n STIX XML files, assuming each one has a package
@@ -32,53 +104,30 @@ def main():
         fd = open(infile)
         pkg = STIXPackage.from_xml(fd)
         
-        # store all patterns
+        # store all patterns from input xml file
         for node in pkg.walk():
-            
             if isinstance (node, Observable):
-                obs = node.to_dict()['object']
-                #print obs
-                
-                if is_pattern(obs['properties']):
-                    patterns.append(obs) 
+                obs = node.to_dict()
+                if 'observable_composition' in obs:
+                    print "LOG Ignoring observable wrapper " + obs['id']
                 else:
-                    instances.append(obs)
-            
-    
-    
-    print "DBG " + str(len(patterns)) + " | " + str(len(instances))
+                    obj = obs['object']
                 
-    # if no patterns given, no point in going further
+                    has_conditions = is_pattern(obj) 
+                      
+                    if has_conditions:
+                        patterns.append(obj)
+                    else:
+                        instances.append(obj)
     if not patterns:
         sys.exit ("Please specify at least one pattern - exiting")
         
-# TODO for each pattern, search all instances for matches
-    for thing in patterns:
+    for pattern in patterns:
+        for instance in instances:
+            match = compare_objects(pattern['properties'],instance['properties'])
+            if match:
+                print "OUT: matched " +  str(pattern['id']) + " on " + instance['id']
+            
         
-        for doodad in instances:
-            match = True
-            if thing['properties']['xsi:type'] == doodad['properties']['xsi:type']:
-                # check each field to see if they are the same (complete match)
-                print thing
-                print doodad
-                for field in thing['properties'].keys():
-                    # TODO if it's a dictionary, iterate through its keys
-                    # else attempt to match the value
-                    if str(doodad['properties'][field]) != str(thing['properties'][field]):
-                        match = False
-                        break
-                    else:
-                        print "DBG: matched on " + str(field)
-                        
-                print match
-    
-    # XXX handle partial match, if one of the fields is the same
-    # XXX handle Contains as condition
-    # i.e.  if (item.member contains pattern.member) 
-
-    # XXX handle other conditions like "startswith", etc
-    # XXX handle apply_condition and lists with '##comma##'
-    
-
 if __name__ == '__main__':
     main()
