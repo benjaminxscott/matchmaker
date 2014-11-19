@@ -54,36 +54,36 @@ def compare_objects(pattern, instance):
             if cond == 'Equals':
                 if insval == patval:
                     match = True
-                    print "DBG: match on " + patval
+
             
             elif cond == 'Contains':
                 if insval in patval:
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "StartsWith":
                 if insval.startswith (patval):
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "EndsWith":
                 if insval.endswith (patval):
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "GreaterThan":
                 if  insval > patval:
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "GreaterThanOrEqual":
                 if  insval >= patval:
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "LessThan":
                 if  insval < patval:
                     match = True
-                    print "DBG: match on " + patval
+
             elif cond == "LessThanOrEqual":
                 if  insval <= patval:
                     match = True
-                    print "DBG: match on " + patval
+
             else:
                     print "DBG: no match on " + patval
                     break
